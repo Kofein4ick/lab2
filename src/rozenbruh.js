@@ -1,8 +1,14 @@
-function f(x){
+function func1(x){
     //return 4*((x[0]-5)**2)+((x[1]-6)**2);
     //return (2*(x[0]**2))+(x[0]*x[1])+(x[1]**2);
-    return ((x[0]-2)**4)+((x[0]-2*x[1])**2);
-}
+    //return ((x[0]-2)**4)+((x[0]-2*x[1])**2);
+    return (-6*x[0])-(4*x[1])+(x[0]**2)+(x[1]**2)+18
+  }
+  function func2(x){
+    //return (2*(x[0]**2))+(x[0]*x[1])+(x[1]**2);
+    return (x[0]**4)+(2*(x[0]**3))+((x[1]-4)**2)+(2*(x[2]**2))+(8*x[2]);
+  }
+
 function sum_v(a,b){
     let c=[];
     for(let i=0;i<a.length;i++)
@@ -61,15 +67,15 @@ function norma(a,b){
     return temp;
 }
 
-function rozenbruh(){
-    let x0=[0,3];
+function rozenbruh(func,alph,bet,epsilon,x11,x12,x13,delta1,delta2,delta3){
+    let x0=func==='func1' ? [parseFloat(x11),parseFloat(x12)] : [parseFloat(x11),parseFloat(x12),parseFloat(x13)];
+    let f = func === 'func1' ? func1 : func2;
     let x=new Array(...x0);
-    let eps=0.6;
-    let alpha =2;
-    let beta=-0.5;
-    let d=[[1,0],[0,1]];
-    let delta=[0.1,0.1];
-    let delta_temp=[];
+    let eps=epsilon;
+    let alpha =alph;
+    let beta=bet;
+    let d= func==='func1' ? [[1,0],[0,1]]: [[1,0,0],[0,1,0],[0,0,1]];
+    let delta=func==='func1' ?[parseFloat(delta1),parseFloat(delta2)]:[parseFloat(delta1),parseFloat(delta2),parseFloat(delta3)];
     let delta_start=new Array(...delta);
     let y1=new Array(...x0);
     let y=new Array(...x0);
@@ -107,7 +113,7 @@ function rozenbruh(){
                 <td>{i}</td>
                 <td>{str_y}</td>
                 <td>{f(y).toFixed(5)}</td>
-                <td>{delta[i]}</td>
+                <td>{delta[i].toFixed(5)}</td>
                 <td>{str_d}</td>
                 <td>{str_sum}</td>
                 <td>{f(sum).toFixed(5)}</td>
@@ -195,6 +201,7 @@ function rozenbruh(){
         }
     }
     let x_temp=new Array(...x);
+
     for(let q=0;q<x.length;q++){
         x_temp[q]=x_temp[q].toFixed(5);
     }
