@@ -1,6 +1,7 @@
 function f(x){
     //return 4*((x[0]-5)**2)+((x[1]-6)**2);
-    return (2*(x[0]**2))+(x[0]*x[1])+(x[1]**2);
+    //return (2*(x[0]**2))+(x[0]*x[1])+(x[1]**2);
+    return ((x[0]-2)**4)+((x[0]-2*x[1])**2);
 }
 function sum_v(a,b){
     let c=[];
@@ -61,10 +62,10 @@ function norma(a,b){
 }
 
 function rozenbruh(){
-    let x0=[0.5,1];
+    let x0=[0,3];
     let x=new Array(...x0);
-    let eps=0.075;
-    let alpha =3;
+    let eps=0.6;
+    let alpha =2;
     let beta=-0.5;
     let d=[[1,0],[0,1]];
     let delta=[0.1,0.1];
@@ -75,13 +76,51 @@ function rozenbruh(){
     let k=0;
     let i=0;
     let n=1;
+    let table=[];
+    let str_x='';
+    let str_y='';
+    let str_sum='';
     while(1){
         let sum=sum_v(y,umnozh_v(d[i],delta[i]));
+        let str_d='';
+        let q=i;
+            let temp=[];
+            for(let b=0;b<d[q].length;b++)
+                temp.push(d[q][b].toFixed(5))
+            str_d=str_d+'('+temp.toString()+'); ';
+        let x_temp=new Array(...x);
+        let y_temp=new Array(...y);
+        let sum_temp=new Array(...sum);
+        for(let q=0;q<x.length;q++){
+            x_temp[q]=x_temp[q].toFixed(5);
+            y_temp[q]=y_temp[q].toFixed(5);
+            sum_temp[q]=sum_temp[q].toFixed(5);
+        }
+        str_x=str_x+'('+x_temp.toString()+'); ';
+        str_y=str_y+'('+y_temp.toString()+'); ';
+        str_sum=str_sum+'('+sum_temp.toString()+'); ';
+        table.push(
+            <tr>
+                <td>{k}</td>
+                <td>{str_x}</td>
+                <td>{f(x).toFixed(5)}</td>
+                <td>{i}</td>
+                <td>{str_y}</td>
+                <td>{f(y).toFixed(5)}</td>
+                <td>{delta[i]}</td>
+                <td>{str_d}</td>
+                <td>{str_sum}</td>
+                <td>{f(sum).toFixed(5)}</td>
+            </tr>);
+        str_d='';
+        str_x='';str_y='';str_sum='';
         if(f(sum)<f(y)){
             y=new Array(...sum);
-            delta_temp[i]=alpha*delta[i];
+            //delta_temp[i]=alpha*delta[i];
+            delta[i]=alpha*delta[i];
         }else {
-            delta_temp[i]=beta*delta[i];
+            //delta_temp[i]=beta*delta[i];
+            delta[i]=beta*delta[i];
         }
         if(i<n){i++;continue;}//shag 3
         if(i==n){//shag3 b
@@ -139,7 +178,7 @@ function rozenbruh(){
                         }
                         delta=new Array(...delta_start);
                         i=0;
-                        k++;
+                        k=k+1;
                         x=y;
                         y1=x;
                     }
@@ -150,13 +189,17 @@ function rozenbruh(){
                         }
                     }
                     
-                    delta=delta_temp;
+                    //delta=delta_temp;
                 }
             }
         }
     }
-    console.log('x = ', x);
-    console.log('f(x) = ',f(x));
+    let x_temp=new Array(...x);
+    for(let q=0;q<x.length;q++){
+        x_temp[q]=x_temp[q].toFixed(5);
+    }
+    str_x=str_x+'('+x_temp.toString()+'); ';
+    return{table:table,optium:str_x,func_optium:f(x).toFixed(5)}
 }
 
 export default rozenbruh;

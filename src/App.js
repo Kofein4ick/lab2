@@ -1,8 +1,11 @@
-import rozenbruh from "./rozenbruh";
-
+import { useEffect, useState } from "react";
+import rozenbruh from "./rozenbruh.js";
 
 function App() {
-  rozenbruh();
+  const [table,setTable]=useState([]);
+  useEffect({
+
+  },[table])
   return (
     <div className="App">
       <button onClick={()=>{rozenbruh()}}>aa</button>
